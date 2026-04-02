@@ -1,5 +1,6 @@
 import { Circle, KeyRound, List, Settings } from 'lucide-preact';
 import { navigateTo, ViewName } from '../router';
+import { isScriptCreationEnabled } from '../stores/scriptCreationSettings';
 
 interface ActionBarProps {
   currentView: ViewName;
@@ -55,6 +56,7 @@ export function ActionBar({ currentView, isRecording }: ActionBarProps) {
   const isRecordingActive = currentView === 'recording';
   const isCredentialsActive = currentView === 'credentials';
   const isSettingsActive = currentView === 'settings';
+  const showRecordButton = isScriptCreationEnabled();
 
   return (
     <nav style={styles.bar}>
@@ -77,23 +79,25 @@ export function ActionBar({ currentView, isRecording }: ActionBarProps) {
       </button>
 
       {/* Record button */}
-      <button
-        style={isRecordingActive ? styles.activeButton : styles.button}
-        onClick={() => navigateTo('recording')}
-        title={chrome.i18n.getMessage('record') || 'Record'}
-      >
-        <span style={styles.iconWrapper}>
-          <Circle
-            size={22}
-            strokeWidth={isRecordingActive ? 2 : 1.5}
-            fill={isRecording ? '#ff3b30' : '#ff3b30'}
-            color={isRecordingActive ? '#4285f4' : '#ff3b30'}
-          />
-        </span>
-        <span style={{ color: isRecordingActive ? '#4285f4' : '#8e8e93', fontWeight: isRecordingActive ? 500 : 400 }}>
-          {chrome.i18n.getMessage('record') || 'Record'}
-        </span>
-      </button>
+      {showRecordButton && (
+        <button
+          style={isRecordingActive ? styles.activeButton : styles.button}
+          onClick={() => navigateTo('recording')}
+          title={chrome.i18n.getMessage('record') || 'Record'}
+        >
+          <span style={styles.iconWrapper}>
+            <Circle
+              size={22}
+              strokeWidth={isRecordingActive ? 2 : 1.5}
+              fill={isRecording ? '#ff3b30' : '#ff3b30'}
+              color={isRecordingActive ? '#4285f4' : '#ff3b30'}
+            />
+          </span>
+          <span style={{ color: isRecordingActive ? '#4285f4' : '#8e8e93', fontWeight: isRecordingActive ? 500 : 400 }}>
+            {chrome.i18n.getMessage('record') || 'Record'}
+          </span>
+        </button>
+      )}
 
       {/* Credentials button */}
       <button

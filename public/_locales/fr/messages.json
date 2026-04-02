@@ -375,6 +375,30 @@
     "message": "Paramètres enregistrés avec succès !",
     "description": "Message quand les paramètres sont enregistrés"
   },
+  "scriptCreationToggleLabel": {
+    "message": "Autoriser la creation de scripts",
+    "description": "Libelle du switch de creation de scripts"
+  },
+  "scriptCreationToggleHint": {
+    "message": "Controle si le menu Enregistrer du bas est disponible.",
+    "description": "Aide pour le switch de creation de scripts"
+  },
+  "scriptCreationDisabledByConfig": {
+    "message": "Cette fonctionnalite a ete desactivee par la configuration distante.",
+    "description": "Message affiche quand la creation de scripts est desactivee par la config"
+  },
+  "scriptCreationStatusLabel": {
+    "message": "Creation de scripts",
+    "description": "Libelle de statut pour la creation de scripts"
+  },
+  "statusEnabled": {
+    "message": "Active",
+    "description": "Statut active"
+  },
+  "statusDisabled": {
+    "message": "Desactivee",
+    "description": "Statut desactivee"
+  },
   "sessionKeyNote": {
     "message": "Note : Votre clé API est chiffrée et stockée localement. Après le redémarrage du navigateur, vous devrez ressaisir votre clé API pour des raisons de sécurité.",
     "description": "Note expliquant le comportement de la cle API de session"

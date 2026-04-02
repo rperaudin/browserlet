@@ -10,6 +10,13 @@ import {
   saveLLMConfig,
   loadLLMConfig,
 } from '../stores/llmConfig';
+import {
+  isScriptCreationEnabled,
+  isScriptCreationToggleVisible,
+  loadScriptCreationSettings,
+  saveScriptCreationSettings,
+  scriptCreationSettingsStore,
+} from '../stores/scriptCreationSettings';
 import type { ProviderName } from '../../background/llm/providers/types';
 import { resetAllExtensionData } from '../../../utils/storage/reset';
 
@@ -68,6 +75,7 @@ export function LLMSettings() {
   // Initialize on mount
   useEffect(() => {
     loadLLMConfig().catch(console.error);
+    loadScriptCreationSettings().catch(console.error);
   }, []);
 
   // Fetch Ollama models from the API
@@ -102,6 +110,14 @@ export function LLMSettings() {
       console.error('Failed to save LLM config:', error);
     } finally {
       showSaveButton.value = true;
+    }
+  };
+
+  const handleScriptCreationToggle = async (enabled: boolean) => {
+    try {
+      await saveScriptCreationSettings(enabled);
+    } catch (error) {
+      console.error('Failed to save script creation settings:', error);
     }
   };
 
@@ -678,6 +694,33 @@ export function LLMSettings() {
         </label>
       </div>
 
+      {isScriptCreationToggleVisible() && (
+        <div style={{ ...sectionStyle, marginTop: '20px', padding: '12px', backgroundColor: '#f8f9fa', borderRadius: '6px', border: '1px solid #e9ecef' }}>
+          <label style={{ display: 'flex', alignItems: 'flex-start', cursor: 'pointer' }}>
+            <input
+              type="checkbox"
+              checked={scriptCreationSettingsStore.userEnabled.value}
+              disabled={!scriptCreationSettingsStore.remoteEnabled.value}
+              onChange={(e: Event) => {
+                handleScriptCreationToggle((e.target as HTMLInputElement).checked).catch(console.error);
+              }}
+              style={{ marginRight: '10px', marginTop: '2px' }}
+            />
+            <div>
+              <span style={{ fontWeight: 500, fontSize: '13px' }}>
+                {chrome.i18n.getMessage('scriptCreationToggleLabel') || 'Allow script creation'}
+              </span>
+              <p style={{ margin: '4px 0 0 0', fontSize: '12px', color: '#666' }}>
+                {scriptCreationSettingsStore.remoteEnabled.value
+                  ? (chrome.i18n.getMessage('scriptCreationToggleHint') || 'Controls whether the bottom Record menu is available.')
+                  : (chrome.i18n.getMessage('scriptCreationDisabledByConfig') || 'This feature has been disabled by remote configuration.')
+                }
+              </p>
+            </div>
+          </label>
+        </div>
+      )}
+
       {/* Save button (only show when configuration is complete) */}
       {showSaveButton.value && (
         <div>
@@ -721,6 +764,17 @@ export function LLMSettings() {
                                   llmConfigStore.ollamaModel.value;
                 return modelName ? `${providerName} - ${modelName}` : providerName;
               })()}
+            </span>
+          </div>
+          <div style={{ marginTop: '8px' }}>
+            <span style={{ fontWeight: 500 }}>
+              {formatLabelWithColon(chrome.i18n.getMessage('scriptCreationStatusLabel') || 'Script Creation') + ' '}
+            </span>
+            <span style={{ color: isScriptCreationEnabled() ? '#28a745' : '#dc3545' }}>
+              {isScriptCreationEnabled()
+                ? (chrome.i18n.getMessage('statusEnabled') || 'Enabled')
+                : (chrome.i18n.getMessage('statusDisabled') || 'Disabled')
+              }
             </span>
           </div>
         </div>

@@ -1,0 +1,8 @@
+{
+  "features": {
+    "scriptCreation": {
+      "enabled": true,
+      "hideToggle": false
+    }
+  }
+}

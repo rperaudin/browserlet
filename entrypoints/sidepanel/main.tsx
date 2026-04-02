@@ -21,6 +21,7 @@ import { ActionBar } from './components/ActionBar';
 import { startExecution, showCompletionModal, completedScriptName } from './stores/execution';
 import { repairTarget } from './stores/repair';
 import { DiagnosticRepairPanel } from './components/DiagnosticRepairPanel';
+import { isScriptCreationEnabled, loadScriptCreationSettings } from './stores/scriptCreationSettings';
 
 // App initialization state
 const appState = signal<'loading' | 'needs_setup' | 'needs_unlock' | 'ready'>('loading');
@@ -196,6 +197,10 @@ function ContentRouter() {
   }
 
   if (view === 'recording') {
+    if (!isScriptCreationEnabled()) {
+      navigateTo('list');
+      return <div />;
+    }
     return <RecordingView />;
   }
 
@@ -447,6 +452,10 @@ async function loadAppData() {
   // Load scripts
   await loadScripts();
   console.log('[Browserlet Sidepanel] Scripts loaded');
+
+  // Load script creation settings
+  await loadScriptCreationSettings();
+  console.log('[Browserlet Sidepanel] Script creation settings loaded');
 
   // Load triggers for context-aware suggestions
   console.log('[Browserlet Sidepanel] Loading triggers...');

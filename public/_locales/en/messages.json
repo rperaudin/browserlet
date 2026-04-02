@@ -375,6 +375,30 @@
     "message": "Settings saved successfully!",
     "description": "Message when settings are saved"
   },
+  "scriptCreationToggleLabel": {
+    "message": "Allow script creation",
+    "description": "Label for the script creation toggle"
+  },
+  "scriptCreationToggleHint": {
+    "message": "Controls whether the bottom Record menu is available.",
+    "description": "Hint for the script creation toggle"
+  },
+  "scriptCreationDisabledByConfig": {
+    "message": "This feature has been disabled by remote configuration.",
+    "description": "Message shown when script creation is disabled by config"
+  },
+  "scriptCreationStatusLabel": {
+    "message": "Script creation",
+    "description": "Status label for script creation"
+  },
+  "statusEnabled": {
+    "message": "Enabled",
+    "description": "Enabled status"
+  },
+  "statusDisabled": {
+    "message": "Disabled",
+    "description": "Disabled status"
+  },
   "sessionKeyNote": {
     "message": "Note: Your API key is encrypted and stored locally. After browser restart, you will need to re-enter your API key for security.",
     "description": "Note explaining API key session behavior"

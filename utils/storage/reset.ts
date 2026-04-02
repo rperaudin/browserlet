@@ -10,6 +10,7 @@ const STORAGE_KEYS = [
   'appState',                    // Recording state and recorded actions
   'browserlet_scripts',          // User scripts
   'browserlet_llm_config',       // LLM configuration
+  'browserlet_script_creation_settings', // Script creation settings
   'browserlet_triggers',         // Trigger configurations
   'browserlet_execution_state',  // Persisted execution state
 ];
